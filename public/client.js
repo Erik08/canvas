@@ -1,5 +1,4 @@
-
-function initcanvas() {
+function initcanvas() {//cargado en body.onload
     const socket = io();
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
@@ -22,15 +21,14 @@ function initcanvas() {
     };
     
 //    ballCopy=ball;
-const ballCopy = Array(1).fill(Object.assign({}, ball));
+const ballCopy = Array(1).fill(Object.assign({}, ball));//copia temporal de ball, ball es instancia del cliente
 
     function clear() {
      // ctx.fillStyle = "red";
       ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
-    
  
-    function reDrawCanvas(users){
+    function reDrawCanvas(users){//volver a pintar canva en caso de evento
         clear();
        // ball.color = "black";
         console.log(users);
@@ -38,32 +36,12 @@ const ballCopy = Array(1).fill(Object.assign({}, ball));
              ballCopy[0].x=user.position.x_axis;
              ballCopy[0].y=user.position.y_axis;
              ballCopy[0].color = (user.colliding==0?'black':'red') ;
-        // //     // ballItem.x= xGuest.x;
-        // //     // ballItem.y=Ypos+=150;
-        //     areColliding(ballCopy[0]);  
              ballCopy[0].draw();
-        // //     //console.log(user.position.x_axis);
-        //  //console.log(user.position.x_axis);
-        // //    //user.position.draw();
           }); 
-       // console.log(users);
-
-        //ball.draw();   
-    
     }
-        // function areColliding(ballItem){                           
-        //     viewRadius=ball.radius*2;//adding left and right
-        //     if(ballItem.x>=ball.x-viewRadius&&ballItem.x<=ball.x+viewRadius&&ballItem.y>=ball.y-viewRadius&&ballItem.y<=ball.y+viewRadius){
-        //     console.log("collision");
-        //     ball.color="red";
-        //     ballItem.color="red";
-        //     }
-           
-        // }           
+      
     document.addEventListener("keydown", (e) => {
-      if (running) {        
-        //console.log(socket.id);
-        
+      if (running) {   
         switch (e.key) {
             case "ArrowLeft":
                 if (ball.x>=1){
@@ -105,36 +83,19 @@ const ballCopy = Array(1).fill(Object.assign({}, ball));
         console.log(running);    
       });
 
-
-      socket.on('newUser:server', function (users){
+      socket.on('newUser:server', function (users){//servidor informa un nuevo usuario
        //console.log(data);
        reDrawCanvas(users);
-      // sessionStorage.setItem('myID', socket.id);
-       //console.log(socket.id);
+
     });
 
-    socket.on('server:inform', function (users){
-      //console.log(data);
+    socket.on('server:inform', function (users){//servidor informa que alguien se movió
+  
       reDrawCanvas(users);
-      
-      //var data = sessionStorage.getItem('key');
-      
+           
    });
-
-    //const exist=(sessionStorage.getItem('myID')?true:false);
-   // console.log('existe:',exist,'ID:',sessionStorage.getItem('myID'));
-   //socket.emit('newUser:client',{x_axis:ball.x,y_axis:ball.y},exist,sessionStorage.getItem('myID'));
-   socket.emit('newUser:client',{x_axis:ball.x,y_axis:ball.y});
-  //  if(!exist){
-
-  //  }
-    
-  //   else{
-  //   console.log('client already exists');
-  // }
-    //
-    //ball.draw();
-    
+     socket.emit('newUser:client',{x_axis:ball.x,y_axis:ball.y});//al terminar de inicializar cliente se informa servidor para 
+                                                              //crear socket
     }
     
 

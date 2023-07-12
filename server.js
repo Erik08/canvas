@@ -3,13 +3,11 @@ const express = require('express');
 const app=express();
 const users=[];
 const viewRadius=50;
-//const canvasWidth=0;
 
 //configuraciones
 app.set('port', process.env.PORT || 3000);
 
 //archivos estaticos
-//console.log(path.join(__dirname,'public'));
 app.use(express.static(path.join(__dirname,'public')));
 
 //Iniciar servidor
@@ -26,19 +24,16 @@ io.on('connection',(socket)=>{
     //console.log('nueva conexión',socket.id);
 
     
-socket.on('newUser:client',(data)=>{
-        //console.log(data);
-        // if (exist){
-        //     socket.id=sID
-        // }
+socket.on('newUser:client',(data)=>{//nueva conexión de cliente
+       
         console.log("user: "+socket.id+" joined");
         users.push({'id':socket.id,colliding:0,'position':data});
         //[socket.id] ={'position':data};
         //users[socket.id].=data;
         areColliding(users);
         
-        io.sockets.emit('newUser:server',users);
-        console.log(users);
+        io.sockets.emit('newUser:server',users);//broadcast a todos los clientes incluyéndome
+        //console.log(users);
     });
 
     function areColliding(users){
@@ -59,6 +54,7 @@ socket.on('newUser:client',(data)=>{
             }   
         }
     }
+
     function resetPosition(users){
 
        // console.log(users);
@@ -68,7 +64,7 @@ socket.on('newUser:client',(data)=>{
         });
 
     }
-    socket.on('user:moved',(data)=>{
+    socket.on('user:moved',(data)=>{//cliente se mueve
         //console.log(data);
         //users.push({'id':socket.id,'position':data});
         //users[socket.id].position.x_axis=[data.x_axis]
