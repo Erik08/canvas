@@ -25,7 +25,7 @@ function initcanvas() {
 const ballCopy = Array(1).fill(Object.assign({}, ball));
 
     function clear() {
-      ctx.fillStyle = "red";
+     // ctx.fillStyle = "red";
       ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
     
