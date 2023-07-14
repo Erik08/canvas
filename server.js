@@ -19,6 +19,7 @@ const SocketIO = require('socket.io');
 const io = SocketIO(server);
 
 
+
 //websocket
 io.on('connection',(socket)=>{
     //console.log('nueva conexión',socket.id);

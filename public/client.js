@@ -73,6 +73,8 @@ const ballCopy = Array(1).fill(Object.assign({}, ball));//copia temporal de ball
       }
     });
     
+
+    
     canvas.addEventListener("mouseout", (e) => {//stop if moouse is out of the canvas
       window.cancelAnimationFrame(raf);
       running = false;
